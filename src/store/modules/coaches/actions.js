@@ -1,7 +1,7 @@
 export default {
   registerCoach(context, data) {
     const coachData = {
-      id: 'c3',
+      id: context.rootGetters.userId,
       firstName: data.first,
       lastName: data.last,
       description: data.desc,
@@ -9,6 +9,6 @@ export default {
       areas: data.areas
     };
 
-    context.commit('resigterCoach', coachData);
+    context.commit('registerCoach', coachData);
   }
 };
