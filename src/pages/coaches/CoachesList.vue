@@ -8,7 +8,9 @@
   <section>
     <base-card>
       <div class="controls">
-        <base-button mode="outline" @click="loadCoaches">Refresh</base-button>
+        <base-button mode="outline" @click="loadCoaches(true)"
+          >Refresh</base-button
+        >
         <base-button v-if="!isCoach && !isLoading" link to="/register"
           >Register as a coach</base-button
         >
@@ -39,7 +41,7 @@ import CoachFilter from '../../components/coaches/CoachFilter.vue';
 export default {
   components: {
     CoachItem,
-    CoachFilter
+    CoachFilter,
   },
   data() {
     return {
@@ -48,14 +50,14 @@ export default {
       activeFilters: {
         frontend: true,
         backend: true,
-        career: true
-      }
+        career: true,
+      },
     };
   },
   computed: {
     filteredCoaches() {
       const coaches = this.$store.getters['coaches/coaches'];
-      return coaches.filter(coach => {
+      return coaches.filter((coach) => {
         if (this.activeFilters.frontend && coach.areas.includes('frontend')) {
           return true;
         }
@@ -73,16 +75,18 @@ export default {
     },
     isCoach() {
       return this.$store.getters['coaches/isCoach'];
-    }
+    },
   },
   methods: {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
     },
-    async loadCoaches() {
+    async loadCoaches(refresh = false) {
       this.isLoading = true;
       try {
-        await this.$store.dispatch('coaches/loadCoaches');
+        await this.$store.dispatch('coaches/loadCoaches', {
+          forceRefresh: refresh,
+        });
       } catch (err) {
         this.error = err.message || 'Something went wrong!';
       }
@@ -90,11 +94,11 @@ export default {
     },
     handleError() {
       this.error = null;
-    }
+    },
   },
   created() {
     this.loadCoaches;
-  }
+  },
 };
 </script>
 
