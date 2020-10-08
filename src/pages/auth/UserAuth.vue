@@ -1,9 +1,9 @@
 <template>
   <div>
-    <base-dialog :show="!!error" title="An error occered" @close="handleError">
+    <base-dialog :show="!!error" title="An error occured" @close="handleError">
       <p>{{ error }}</p>
     </base-dialog>
-    <base-dialog fixed title="Authenticating..." :showing="isLoading">
+    <base-dialog fixed title="Authenticating..." :show="isLoading">
       <base-spinner></base-spinner>
     </base-dialog>
     <base-card>
@@ -75,23 +75,25 @@ export default {
 
       this.isLoading = true;
 
+      const actionPayload = {
+        email: this.email,
+        password: this.password,
+      };
+
       try {
         if (this.mode === 'login') {
-          //...
+          await this.$store.dispatch('login', actionPayload);
         } else {
-          await this.$store.dispatch('signup', {
-            email: this.email,
-            password: this.password,
-          });
+          await this.$store.dispatch('signup', actionPayload);
         }
       } catch (err) {
         this.error = err.message || 'Failed to authenticate, try again later';
       }
       this.isLoading = false;
     },
-  },
-  handleError() {
-    this.error = null;
+    handleError() {
+      this.error = null;
+    },
   },
 };
 </script>
