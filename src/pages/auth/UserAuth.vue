@@ -3,7 +3,7 @@
     <base-dialog :show="!!error" title="An error occured" @close="handleError">
       <p>{{ error }}</p>
     </base-dialog>
-    <base-dialog fixed title="Authenticating..." :show="isLoading">
+    <base-dialog title="Authenticating..." :show="isLoading" fixed>
       <base-spinner></base-spinner>
     </base-dialog>
     <base-card>
@@ -90,6 +90,7 @@ export default {
         this.error = err.message || 'Failed to authenticate, try again later';
       }
       this.isLoading = false;
+      this.$router.replace('/');
     },
     handleError() {
       this.error = null;
