@@ -8,5 +8,8 @@ export default {
   isAuthenticated(state) {
     //double ! will turn it to a boolean
     return !!state.token;
+  },
+  didAutoLogout(state) {
+    state.didAutoLogout;
   }
 };
